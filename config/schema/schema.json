@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "jsonrpc": {
+      "$id": "/properties/jsonrpc",
+      "type": "string",
+      "title": "num standard",
+      "examples": [
+        "2.0"
+      ],
+      "enum": [
+        "2.0"
+      ]
+    },
+    "method": {
+      "$id": "/properties/method",
+      "type": "string",
+      "title": "Method name/Event name",
+      "example": "CreateProject",
+      "enum": [
+        "CreatedProduct",
+        "SoldProduct"
+      ]
+    },
+    "id": {
+      "$id": "/properties/id",
+      "type": "string",
+      "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$",
+      "example": "123e4567-e89b-12d3-a456-426655440000"
+    },
+    "params": {
+      "$id": "/properties/params",
+      "type": "object",
+      "properties": {
+        "name": {
+          "$id": "/properties/params",
+          "type": "string",
+          "example": "But"
+        },
+        "createdAt": {
+          "$id": "/properties/params/createdAt",
+          "type": "string",
+          "format": "date",
+          "example": "2022-06-09"
+        }
+      },
+      "required": [
+        "name",
+        "createdAt"
+      ]
+    }
+  },
+  "required": [
+    "jsonrpc",
+    "method",
+    "params",
+    "id"
+  ]
+}

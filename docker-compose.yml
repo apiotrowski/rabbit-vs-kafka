@@ -1,0 +1,20 @@
+version: "3.5"
+
+services:
+  rabbitmq:
+    hostname: rabbitmq.app.local
+    image: rabbitmq:3.9.7-management-alpine
+
+  nginx:
+    build:
+      context: ./docker/nginx
+    depends_on:
+      - php
+
+  php:
+    build:
+      context: ./docker/php-fpm
+    env_file:
+      - .env
+    environment:
+      COMPOSER_ALLOW_SUPERUSER: 1

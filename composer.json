@@ -1,0 +1,76 @@
+{
+    "type": "project",
+    "license": "proprietary",
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "require": {
+        "php": ">=8.0.2",
+        "ext-ctype": "*",
+        "ext-iconv": "*",
+        "bunny/bunny": "^0.5.1",
+        "gaufrette/extras": "^0.1.0",
+        "justinrainbow/json-schema": "^5.2",
+        "knplabs/knp-gaufrette-bundle": "^0.7.2",
+        "lexik/jwt-authentication-bundle": "^2.15",
+        "php-amqplib/php-amqplib": "^3.2",
+        "predis/predis": "^1.1",
+        "snc/redis-bundle": "^4.1",
+        "symfony/console": "6.0.*",
+        "symfony/dotenv": "6.0.*",
+        "symfony/flex": "^2",
+        "symfony/framework-bundle": "6.0.*",
+        "symfony/monolog-bundle": "^3.7",
+        "symfony/runtime": "6.0.*",
+        "symfony/yaml": "6.0.*",
+        "webmozart/assert": "^1.10"
+    },
+    "require-dev": {
+        "symfony/web-profiler-bundle": "6.0.*"
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/package-versions-deprecated": true,
+            "symfony/flex": true,
+            "symfony/runtime": true
+        },
+        "optimize-autoloader": true,
+        "preferred-install": {
+            "*": "dist"
+        },
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "replace": {
+        "symfony/polyfill-ctype": "*",
+        "symfony/polyfill-iconv": "*",
+        "symfony/polyfill-php72": "*",
+        "symfony/polyfill-php73": "*",
+        "symfony/polyfill-php74": "*",
+        "symfony/polyfill-php80": "*"
+    },
+    "scripts": {
+        "auto-scripts": {
+            "cache:clear": "symfony-cmd",
+            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+        },
+        "post-install-cmd": [
+            "@auto-scripts"
+        ],
+        "post-update-cmd": [
+            "@auto-scripts"
+        ]
+    },
+    "conflict": {
+        "symfony/symfony": "*"
+    },
+    "extra": {
+        "symfony": {
+            "allow-contrib": false,
+            "require": "6.0.*"
+        }
+    }
+}
