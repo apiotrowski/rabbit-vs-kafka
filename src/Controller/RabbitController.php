@@ -21,6 +21,12 @@ class RabbitController extends AbstractController
     {
     }
 
+    #[Route('/', name: 'rabbit.index', methods: ['GET'])]
+    public function index(Request $request): Response
+    {
+        return new JsonResponse(['prezentuje' => 'Andrzej Piotrowski - andrzej.pitorowski@eobuwie.com.pl']);
+    }
+
     #[Route('/publish-bunny', name: 'rabbit.publish_bunny', methods: ['GET'])]
     public function publishWithBunny(Request $request): Response
     {
@@ -37,7 +43,7 @@ class RabbitController extends AbstractController
         $channel->queueDeclare('test.bunny');
         $channel->queueDeclare('test.bunny.durable',false, true);
 
-        $channel->publish('{msg: "not durable"}', [], '', 'test.bunny');
+        $channel->publish('{msg: "not durable"}', [], 'amq.direct', 'test.bunny');
         $channel->publish('{test: "durable"}', [], '', 'test.bunny.durable');
 
         $bunny->disconnect();
