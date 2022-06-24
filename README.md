@@ -5,14 +5,14 @@
 * Docker Compose (https://docs.docker.com/compose/install/)
 
 Please add below entry to hosts file (on Linux it's `/etc/hosts`:
-* `127.0.0.1 app.local rabbitmq.bff.local mailhog.bff.local` 
+* `127.0.0.1 app.local rabbitmq.app.local mailhog.app.local` 
 
 Copy file .env.dist as .env to project directory.
 
 #### URL ####
 * `http://app.local/` - app homepage
-* `http://rabbitmq.bff.local/` - RabbitMQ web UI
-* `http://mailhog.bff.local/` - an email testing tool (you can browse sent emails here)
+* `http://rabbitmq.app.local/` - RabbitMQ web UI
+* `http://mailhog.app.local/` - an email testing tool (you can browse sent emails here)
 
 ### Init ###
 * Run docker by calling make docker-up
@@ -40,7 +40,7 @@ make symfony CMD="consumer:rabbit --run-time=15"
 ### Dead Letter Exchanges ###
 * [Death Letter Exchanges](https://www.rabbitmq.com/dlx.html)
 
-### Validation#
+### Validation ###
 
 #### Validation message format ####
 * [JSON RPC 2.0](https://en.wikipedia.org/wiki/JSON-RPC#Version_2.0)
@@ -119,3 +119,5 @@ make symfony CMD="consumer:rabbit --run-time=15"
   ]
 }
 ```
+
+Example: [JSON online validation example](https://www.jsonschemavalidator.net/s/fsuICVan)
