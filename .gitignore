@@ -1,5 +1,6 @@
 vendor
 .idea
 data/rabbit
+data/kafka1
 var/*
 docs/.~*

@@ -48,5 +48,10 @@ services:
       VIRTUAL_PORT: 8025
       HTTPS_METHOD: noredirect
 
+#  control-center:
+#    environment:
+#      VIRTUAL_HOST: app.control
+#      VIRTUAL_PORT: 9021
+
 volumes:
   user-dir:

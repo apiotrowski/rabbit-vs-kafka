@@ -5,7 +5,6 @@ namespace App\Controller;
 
 use Bunny\Client;
 use Bunny\Message;
-use JsonSchema\Validator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,7 +26,7 @@ class RabbitController extends AbstractController
         return new JsonResponse(['prezentuje' => 'Andrzej Piotrowski - andrzej.pitorowski@eobuwie.com.pl']);
     }
 
-    #[Route('/publish-bunny', name: 'rabbit.publish_bunny', methods: ['GET'])]
+    #[Route('/rabbit/publish/bunny', name: 'rabbit.publish_bunny', methods: ['GET'])]
     public function publishWithBunny(Request $request): Response
     {
         $bunny = new Client([
@@ -52,7 +51,7 @@ class RabbitController extends AbstractController
         return new JsonResponse(['status' => 'success']);
     }
 
-    #[Route('/publish-native', name: 'rabbit.publish_native', methods: ['GET'])]
+    #[Route('/rabbit/publish/native', name: 'rabbit.publish_native', methods: ['GET'])]
     public function publishWithNative(Request $request): Response
     {
         $connection = new AMQPStreamConnection(
@@ -77,7 +76,7 @@ class RabbitController extends AbstractController
         return new JsonResponse(['status' => 'success']);
     }
 
-    #[Route('/publish', name: 'rabbit.publish', methods: ['GET'])]
+    #[Route('/rabbit/publish/death-letter', name: 'rabbit.publish', methods: ['GET'])]
     public function publishToDeathLetterInit(): JsonResponse
     {
         $bunny = new Client([
@@ -95,7 +94,7 @@ class RabbitController extends AbstractController
         return new JsonResponse(['status' => 'success']);
     }
 
-    #[Route('/consume-single-message', name: 'rabbit.consume_single_message', methods: ['GET'])]
+    #[Route('/rabbit/consume/single-message', name: 'rabbit.consume_single_message', methods: ['GET'])]
     public function consumeSingleMessage(): JsonResponse
     {
         $bunny = new Client([
@@ -124,8 +123,8 @@ class RabbitController extends AbstractController
         return new JsonResponse(['content' => $content, 'headers' => $headers]);
     }
 
-    #[Route('/death-letter-init', name: 'rabbit.death_letter_init', methods: ['GET'])]
-    public function deathLetterDefine(): JsonResponse
+    #[Route('/rabbit/death-letter-init', name: 'rabbit.death_letter_init', methods: ['GET'])]
+    public function deathLetterInit(): JsonResponse
     {
         $bunny = new Client([
             'host' => $this->rabbitHost,
@@ -148,7 +147,7 @@ class RabbitController extends AbstractController
         return new JsonResponse(['status' => 'success']);
     }
 
-    #[Route('/publish-to-death-letter', name: 'rabbit.publish_death_letter', methods: ['GET'])]
+    #[Route('/rabbit/publish/death-letter', name: 'rabbit.publish_death_letter', methods: ['GET'])]
     public function publishToDeathLetterRetry(): JsonResponse
     {
         $bunny = new Client([

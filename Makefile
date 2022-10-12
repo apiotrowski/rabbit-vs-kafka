@@ -16,6 +16,8 @@ setup-rabbit:
 docker-restart: docker-down docker-up
 docker-up:
 	docker-compose ${DC} up -d --force-recreate
+docker-up2:
+	docker-compose ${DC} up --force-recreate
 docker-build:
 	docker-compose ${DC} build --no-cache
 docker-down:
