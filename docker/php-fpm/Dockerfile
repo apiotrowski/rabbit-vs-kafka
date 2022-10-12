@@ -1,7 +1,19 @@
 FROM php:8.1.0-fpm
 
 # libc-client-dev and libkrb5-dev are for imap extension
-RUN apt-get update && apt-get install -y libfreetype6-dev libjpeg62-turbo-dev libmcrypt-dev libpng-dev libxml2-dev libc-client-dev libkrb5-dev unzip iproute2 libonig-dev libzip-dev libjudy-dev
+RUN apt-get update && apt-get install -y libfreetype6-dev \
+    libjpeg62-turbo-dev  \
+    libmcrypt-dev  \
+    libpng-dev  \
+    libxml2-dev  \
+    libc-client-dev  \
+    libkrb5-dev  \
+    unzip  \
+    iproute2  \
+    libonig-dev  \
+    libzip-dev  \
+    libjudy-dev  \
+    librdkafka-dev
 
 # XDEBUG
 RUN curl --insecure -fsSL 'https://xdebug.org/files/xdebug-3.1.0.tgz' -o xdebug.tar.gz \
@@ -21,7 +33,16 @@ RUN curl -sS -o /tmp/icu.tar.gz -L "https://github.com/unicode-org/icu/releases/
 RUN docker-php-ext-configure gd \
  && docker-php-ext-install gd
 
-RUN docker-php-ext-install dom soap mbstring xml simplexml zip opcache pdo_mysql pcntl sockets
+RUN docker-php-ext-install dom \
+    soap  \
+    mbstring  \
+    xml  \
+    simplexml  \
+    zip  \
+    opcache  \
+    pdo_mysql  \
+    pcntl  \
+    sockets
 
 # ini files should be applied for command line and php-fpm
 ADD app.ini /usr/local/etc/php/conf.d/
@@ -37,15 +58,11 @@ RUN chmod +x /xdebug-enable.sh
 # it should resolve problem with cache & logs permissions
 RUN usermod -u 1000 www-data
 
-RUN apt update && apt install -y gnupg2 wget \
-    && wget -q -O - https://packages.blackfire.io/gpg.key | apt-key add - \
-    && echo "deb https://packages.blackfire.io/debian any main" | tee /etc/apt/sources.list.d/blackfire.list \
-    && apt --allow-releaseinfo-change update \
-    && apt install blackfire blackfire-php
+RUN pecl install  \
+    memprof \
+    rdkafka
 
-# MEMPROF
-RUN pecl install memprof
-
-RUN apt install -y python3 python3-pip && pip3 install openpyxl
+RUN echo "extension=rdkafka.so" > /usr/local/etc/php/conf.d/rdkafka.ini
+RUN echo "extension=memprof.so" > /usr/local/etc/php/conf.d/memprof.ini
 
 COPY --from=composer:2.1.5 /usr/bin/composer /usr/bin/composer

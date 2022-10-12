@@ -1,4 +1,38 @@
 {
+    "enqueue/async-event-dispatcher": {
+        "version": "0.10",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "0.9",
+            "ref": "5a6f3bb8af169c434797b6ee623a5ea3dc64b86c"
+        },
+        "files": [
+            "config/packages/enqueue_async_event_dispatcher.yaml"
+        ]
+    },
+    "enqueue/enqueue-bundle": {
+        "version": "0.10",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "0.9",
+            "ref": "c6ec89b63f963d10ad0d7a7bea170359c119c8bc"
+        },
+        "files": [
+            "config/packages/enqueue.yaml",
+            "config/packages/test/enqueue.yaml"
+        ]
+    },
+    "enqueue/rdkafka": {
+        "version": "0.10",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "0.8",
+            "ref": "52a1ce303070ba433874414402e240cca13ed17d"
+        }
+    },
     "gaufrette/extras": {
         "version": "v0.1.0"
     },
@@ -58,6 +92,15 @@
         "files": [
             "config/packages/snc_redis.yaml"
         ]
+    },
+    "sroze/messenger-enqueue-transport": {
+        "version": "0.6",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "0.1",
+            "ref": "9a7119f609b576a30dbf03e4fe44212388e96ea1"
+        }
     },
     "symfony/cache": {
         "version": "v6.0.6"
@@ -140,6 +183,18 @@
     },
     "symfony/http-kernel": {
         "version": "v6.0.7"
+    },
+    "symfony/messenger": {
+        "version": "6.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "6.0",
+            "ref": "2523f7d31488903e247a522e760dc279be7f7aaf"
+        },
+        "files": [
+            "config/packages/messenger.yaml"
+        ]
     },
     "symfony/monolog-bridge": {
         "version": "v6.0.3"
