@@ -15,7 +15,8 @@ RUN apt-get update && apt-get install -y libfreetype6-dev \
     libjudy-dev  \
     librdkafka-dev \
     librabbitmq-dev \
-    libssl-dev
+    libssl-dev \
+    libicu-dev
 
 # XDEBUG
 RUN curl --insecure -fsSL 'https://xdebug.org/files/xdebug-3.1.0.tgz' -o xdebug.tar.gz \
@@ -26,10 +27,9 @@ RUN curl --insecure -fsSL 'https://xdebug.org/files/xdebug-3.1.0.tgz' -o xdebug.
  && rm -r xdebug
 
 # INTL
-RUN curl -sS -o /tmp/icu.tar.gz -L "https://github.com/unicode-org/icu/releases/download/release-69-1/icu4c-69_1-src.tgz" \
- && tar -zxf /tmp/icu.tar.gz -C /tmp && cd /tmp/icu/source && ./configure --prefix=/usr/local && make && make install \
- && docker-php-ext-configure intl && docker-php-ext-install intl && docker-php-ext-enable intl \
- && rm -f /tmp/icu.tar.gz && rm -rf /tmp/icu
+RUN apt-get -y update \
+&& docker-php-ext-configure intl \
+&& docker-php-ext-install intl
 
 # GD with JPEG Support
 RUN docker-php-ext-configure gd \
