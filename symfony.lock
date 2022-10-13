@@ -42,6 +42,9 @@
     "knplabs/knp-gaufrette-bundle": {
         "version": "v0.7.2"
     },
+    "koco/messenger-kafka": {
+        "version": "v0.17"
+    },
     "lcobucci/clock": {
         "version": "2.1.0"
     },

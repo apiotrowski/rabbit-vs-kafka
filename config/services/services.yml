@@ -1,1 +1,4 @@
 services:
+  App\Controller\Command\ExampleCommandHandler:
+    arguments:
+      - '@monolog.logger.messenger'

@@ -2,6 +2,8 @@
 declare(strict_types=1);
 namespace App\Controller;
 
+use App\Controller\Command\ExampleCommand;
+use DateTime;
 use Enqueue\RdKafka\JsonSerializer;
 use Interop\Queue\Message;
 use Enqueue\RdKafka\RdKafkaConnectionFactory;
@@ -9,11 +11,24 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use RdKafka;
 
 class KafkaController extends AbstractController
 {
+    public function __construct(private MessageBusInterface $commandBus)
+    {
+    }
+
+    #[Route('/kafka/publish-messenger', name: 'kafka.publish.messenger', methods: ['GET'])]
+    public function publishMessenger(): JsonResponse
+    {
+        $this->commandBus->dispatch(new ExampleCommand("Hello world", new DateTime()));
+
+        return new JsonResponse('The Message was send');
+    }
+
     #[Route('/kafka/publish', name: 'kafka.publish', methods: ['GET'])]
     public function publish(Request $request): JsonResponse
     {

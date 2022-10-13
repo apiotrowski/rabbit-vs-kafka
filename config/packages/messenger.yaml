@@ -3,13 +3,35 @@ framework:
         failure_transport: failed
 
         transports:
+            producer:
+                dsn: '%env(KAFKA_URL)%'
+                serializer: App\Controller\Command\Serializer
+                options:
+                    flushTimeout: 10000
+                    flushRetries: 5
+                    topic:
+                        name: 'events'
+            consumer:
+                dsn: '%env(KAFKA_URL)%'
+                serializer: App\Controller\Command\Serializer
+                options:
+                    commitAsync: true
+                    receiveTimeout: 10000
+                    topic:
+                        name: "events"
+                    kafka_conf:
+                        enable.auto.offset.store: 'false'
+                        group.id: 'my-group-id' # should be unique per consumer
+                        max.poll.interval.ms: '45000'
+                    topic_conf:
+                        auto.offset.reset: 'earliest'
             async:
                 dsn:  "%env(MESSENGER_TRANSPORT_DSN)%"
             failed:
                 dsn: "doctrine://default?queue_name=failed"
-
-#        routing:
-#            'App\Message\EmailNotification': async
+        routing:
+            # async is whatever name you gave your transport above
+            'App\Controller\Command\ExampleCommand': [consumer, async]
 
 #framework:
 #    messenger:
