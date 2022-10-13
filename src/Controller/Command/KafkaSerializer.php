@@ -12,7 +12,7 @@ final class KafkaSerializer implements SerializerInterface
     {
         $record = json_decode($encodedEnvelope['body'], true);
 
-        return new Envelope(new ExampleCommand(
+        return new Envelope(new KafkaCommand(
             $record['subject'],
             new DateTime($record['createdAt']['date']),
         ));
@@ -20,7 +20,7 @@ final class KafkaSerializer implements SerializerInterface
 
     public function encode(Envelope $envelope): array
     {
-        /** @var ExampleCommand $event */
+        /** @var KafkaCommand $event */
         $event = $envelope->getMessage();
 
         return [

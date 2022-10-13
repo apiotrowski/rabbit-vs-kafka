@@ -4,7 +4,7 @@ namespace App\Controller\Command;
 
 use DateTime;
 
-final class ExampleCommand
+final class KafkaCommand
 {
     public function __construct(private string $subject, private \DateTime $createdAt)
     {

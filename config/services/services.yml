@@ -1,4 +1,8 @@
 services:
-  App\Controller\Command\ExampleCommandHandler:
+  App\Controller\Command\KafkaCommandHandler:
+    arguments:
+      - '@monolog.logger.messenger'
+
+  App\Controller\Command\RabbitCommandHandler:
     arguments:
       - '@monolog.logger.messenger'

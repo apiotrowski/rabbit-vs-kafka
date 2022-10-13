@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace App\Controller;
 
-use App\Controller\Command\ExampleCommand;
+use App\Controller\Command\KafkaCommand;
 use DateTime;
 use Enqueue\RdKafka\JsonSerializer;
 use Interop\Queue\Message;
@@ -24,7 +24,7 @@ class KafkaController extends AbstractController
     #[Route('/kafka/publish-messenger', name: 'kafka.publish.messenger', methods: ['GET'])]
     public function publishMessenger(): JsonResponse
     {
-        $this->commandBus->dispatch(new ExampleCommand("Hello world", new DateTime()));
+        $this->commandBus->dispatch(new KafkaCommand("Kakfa hello world", new DateTime()));
 
         return new JsonResponse('The Message was send to kafka');
     }

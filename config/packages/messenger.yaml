@@ -3,7 +3,7 @@ framework:
         failure_transport: failed
 
         transports:
-            producer:
+            kafka_producer:
                 dsn: '%env(KAFKA_URL)%'
                 serializer: App\Controller\Command\KafkaSerializer
                 options:
@@ -11,7 +11,7 @@ framework:
                     flushRetries: 5
                     topic:
                         name: 'events'
-            consumer:
+            kafka_consumer:
                 dsn: '%env(KAFKA_URL)%'
                 serializer: App\Controller\Command\KafkaSerializer
                 options:
@@ -25,7 +25,7 @@ framework:
                         max.poll.interval.ms: '45000'
                     topic_conf:
                         auto.offset.reset: 'earliest'
-            async:
+            rabbit_async:
                 dsn:  '%env(MESSENGER_TRANSPORT_DSN)%/%2f/events'
                 serializer: App\Controller\Command\RabbitSerializer
                 retry_strategy:
@@ -41,5 +41,5 @@ framework:
                 dsn: "doctrine://default?queue_name=failed"
         routing:
             # async is whatever name you gave your transport above
-            'App\Controller\Command\ExampleCommand': consumer
-            'App\Controller\Command\RabbitCommand': async
+            'App\Controller\Command\KafkaCommand': kafka_producer
+            'App\Controller\Command\RabbitCommand': rabbit_async

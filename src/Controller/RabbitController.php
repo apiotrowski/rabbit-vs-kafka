@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Controller\Command\ExampleCommand;
+use App\Controller\Command\KafkaCommand;
 use App\Controller\Command\RabbitCommand;
 use Bunny\Client;
 use Bunny\Message;
@@ -39,7 +39,7 @@ class RabbitController extends AbstractController
     #[Route('/rabbit/publish-messenger', name: 'rabbit.publish_messenger', methods: ['GET'])]
     public function publishMessenger(Request $request): Response
     {
-        $this->commandBus->dispatch(new RabbitCommand("Hello world rabbit", new DateTime()));
+        $this->commandBus->dispatch(new RabbitCommand("Rabbit hello world", new DateTime()));
 
         return new JsonResponse('The Message was send to rabbit');
     }

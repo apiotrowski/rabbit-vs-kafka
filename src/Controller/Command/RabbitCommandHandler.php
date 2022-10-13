@@ -6,7 +6,7 @@ namespace App\Controller\Command;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-#[AsMessageHandler(fromTransport: 'async')]
+#[AsMessageHandler(fromTransport: 'rabbit_async')]
 final class RabbitCommandHandler
 {
     public function __construct(private LoggerInterface $logger)
