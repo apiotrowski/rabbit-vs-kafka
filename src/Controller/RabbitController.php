@@ -3,12 +3,16 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Controller\Command\ExampleCommand;
+use App\Controller\Command\RabbitCommand;
 use Bunny\Client;
 use Bunny\Message;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 use PhpAmqpLib\Connection\AMQPStreamConnection;
@@ -16,14 +20,28 @@ use PhpAmqpLib\Message\AMQPMessage;
 
 class RabbitController extends AbstractController
 {
-    public function __construct(private string $rabbitHost, private int $rabbitPort, private string $rabbitUser, private string $rabbitPassword, private string $rabbitVhost)
-    {
+    public function __construct(
+        private MessageBusInterface $commandBus,
+        private string $rabbitHost,
+        private int $rabbitPort,
+        private string $rabbitUser,
+        private string $rabbitPassword,
+        private string $rabbitVhost
+    ) {
     }
 
     #[Route('/', name: 'rabbit.index', methods: ['GET'])]
     public function index(Request $request): Response
     {
         return new JsonResponse(['prezentuje' => 'Andrzej Piotrowski - andrzej.pitorowski@eobuwie.com.pl']);
+    }
+
+    #[Route('/rabbit/publish-messenger', name: 'rabbit.publish_messenger', methods: ['GET'])]
+    public function publishMessenger(Request $request): Response
+    {
+        $this->commandBus->dispatch(new RabbitCommand("Hello world rabbit", new DateTime()));
+
+        return new JsonResponse('The Message was send to rabbit');
     }
 
     #[Route('/rabbit/publish/bunny', name: 'rabbit.publish_bunny', methods: ['GET'])]

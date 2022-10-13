@@ -5,7 +5,7 @@ framework:
         transports:
             producer:
                 dsn: '%env(KAFKA_URL)%'
-                serializer: App\Controller\Command\Serializer
+                serializer: App\Controller\Command\KafkaSerializer
                 options:
                     flushTimeout: 10000
                     flushRetries: 5
@@ -13,7 +13,7 @@ framework:
                         name: 'events'
             consumer:
                 dsn: '%env(KAFKA_URL)%'
-                serializer: App\Controller\Command\Serializer
+                serializer: App\Controller\Command\KafkaSerializer
                 options:
                     commitAsync: true
                     receiveTimeout: 10000
@@ -26,32 +26,20 @@ framework:
                     topic_conf:
                         auto.offset.reset: 'earliest'
             async:
-                dsn:  "%env(MESSENGER_TRANSPORT_DSN)%"
+                dsn:  '%env(MESSENGER_TRANSPORT_DSN)%/%2f/events'
+                serializer: App\Controller\Command\RabbitSerializer
+                retry_strategy:
+                    max_retries: 3
+                    # initial delay set to 5 seconds
+                    delay: 5000
+                    # each delay will be multiplied by 2
+                    # so the delays will be 5s, 10s, 20s
+                    multiplier: 2
+
+
             failed:
                 dsn: "doctrine://default?queue_name=failed"
         routing:
             # async is whatever name you gave your transport above
-            'App\Controller\Command\ExampleCommand': [consumer, async]
-
-#framework:
-#    messenger:
-        # Uncomment this (and the failed transport below) to send failed messages to this transport for later handling.
-        # failure_transport: failed
-
-#        transports:
-            # https://symfony.com/doc/current/messenger.html#transport-configuration
-            # async: '%env(MESSENGER_TRANSPORT_DSN)%'
-            # failed: 'doctrine://default?queue_name=failed'
-            # sync: 'sync://'
-
-#        routing:
-            # Route your messages to the transports
-            # 'App\Message\YourMessage': async
-
-# when@test:
-#    framework:
-#        messenger:
-#            transports:
-#                # replace with your transport name here (e.g., my_transport: 'in-memory://')
-#                # For more Messenger testing tools, see https://github.com/zenstruck/messenger-test
-#                async: 'in-memory://'
+            'App\Controller\Command\ExampleCommand': consumer
+            'App\Controller\Command\RabbitCommand': async

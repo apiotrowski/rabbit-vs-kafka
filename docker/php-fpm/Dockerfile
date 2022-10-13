@@ -13,7 +13,9 @@ RUN apt-get update && apt-get install -y libfreetype6-dev \
     libonig-dev  \
     libzip-dev  \
     libjudy-dev  \
-    librdkafka-dev
+    librdkafka-dev \
+    librabbitmq-dev \
+    libssl-dev
 
 # XDEBUG
 RUN curl --insecure -fsSL 'https://xdebug.org/files/xdebug-3.1.0.tgz' -o xdebug.tar.gz \
@@ -60,9 +62,11 @@ RUN usermod -u 1000 www-data
 
 RUN pecl install  \
     memprof \
-    rdkafka
+    rdkafka \
+    amqp
 
 RUN echo "extension=rdkafka.so" > /usr/local/etc/php/conf.d/rdkafka.ini
 RUN echo "extension=memprof.so" > /usr/local/etc/php/conf.d/memprof.ini
+RUN echo "extension=amqp.so" > /usr/local/etc/php/conf.d/amqp.ini
 
 COPY --from=composer:2.1.5 /usr/bin/composer /usr/bin/composer

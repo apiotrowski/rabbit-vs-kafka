@@ -6,7 +6,7 @@ use DateTime;
 use Symfony\Component\Messenger\Transport\Serialization\SerializerInterface;
 use Symfony\Component\Messenger\Envelope;
 
-final class Serializer implements SerializerInterface
+final class KafkaSerializer implements SerializerInterface
 {
     public function decode(array $encodedEnvelope): Envelope
     {

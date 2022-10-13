@@ -5,6 +5,7 @@
     "prefer-stable": true,
     "require": {
         "php": ">=8.0.2",
+        "ext-amqp": "*",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-rdkafka": "*",
@@ -21,6 +22,7 @@
         "predis/predis": "^1.1",
         "snc/redis-bundle": "^4.1",
         "sroze/messenger-enqueue-transport": "^0.6.0",
+        "symfony/amqp-messenger": "^6.1",
         "symfony/console": "6.0.*",
         "symfony/dotenv": "6.0.*",
         "symfony/flex": "^2",

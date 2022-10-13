@@ -26,7 +26,7 @@ class KafkaController extends AbstractController
     {
         $this->commandBus->dispatch(new ExampleCommand("Hello world", new DateTime()));
 
-        return new JsonResponse('The Message was send');
+        return new JsonResponse('The Message was send to kafka');
     }
 
     #[Route('/kafka/publish', name: 'kafka.publish', methods: ['GET'])]
