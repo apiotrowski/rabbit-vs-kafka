@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 
-class RabbitController extends AbstractController
+final class RabbitController extends AbstractController
 {
     public function __construct(
         private MessageBusInterface $commandBus,
@@ -33,7 +33,7 @@ class RabbitController extends AbstractController
     #[Route('/', name: 'rabbit.index', methods: ['GET'])]
     public function index(Request $request): Response
     {
-        return new JsonResponse(['prezentuje' => 'Andrzej Piotrowski - andrzej.pitorowski@eobuwie.com.pl']);
+        return new JsonResponse(['temat' => 'Porównanie systemów kolejkowy RabbitMQ i Apache Kafka', 'prezentuje' => 'Andrzej Piotrowski - andrzej.pitorowski@eobuwie.com.pl']);
     }
 
     #[Route('/rabbit/publish-messenger', name: 'rabbit.publish_messenger', methods: ['GET'])]
@@ -58,7 +58,7 @@ class RabbitController extends AbstractController
         $channel = $bunny->channel();
 
         $channel->queueDeclare('test.bunny');
-        $channel->queueDeclare('test.bunny.durable',false, true);
+        $channel->queueDeclare('test.bunny.durable', false, true);
 
         $channel->publish('{msg: "not durable"}', [], 'amq.direct', 'test.bunny');
         $channel->publish('{test: "durable"}', [], '', 'test.bunny.durable');

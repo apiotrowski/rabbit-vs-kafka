@@ -15,8 +15,10 @@ use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use RdKafka;
 
-class KafkaController extends AbstractController
+final class KafkaController extends AbstractController
 {
+    private const KAFKA_DSN = 'kafka:9092';
+
     public function __construct(private MessageBusInterface $commandBus)
     {
     }
@@ -36,7 +38,7 @@ class KafkaController extends AbstractController
             $connectionFactory = new RdKafkaConnectionFactory([
                 'global' => [
                     'group.id' => uniqid('', true),
-                    'metadata.broker.list' => 'kafka:9092',
+                    'metadata.broker.list' => self::KAFKA_DSN,
                 ],
             ]);
 
@@ -48,8 +50,8 @@ class KafkaController extends AbstractController
 
             $messageBody = [
                 "ordertime" => time(),
-                "orderid" => rand(0, 100),
-                "itemid" => "Item_" . rand(0,100),
+                "orderid" => random_int(0, 100),
+                "itemid" => "Item_" . random_int(0, 100),
                 "address" => [
                     "city" => "Mountain View",
                     "state" => "CA",
@@ -77,7 +79,7 @@ class KafkaController extends AbstractController
         $connectionFactory = new RdKafkaConnectionFactory([
             'global' => [
                 'group.id' => 'moj2',
-                'metadata.broker.list' => 'kafka:9092',
+                'metadata.broker.list' => self::KAFKA_DSN,
                 'enable.auto.commit' => 'false',
             ],
             'topic' => [
@@ -125,11 +127,11 @@ class KafkaController extends AbstractController
                 case RD_KAFKA_RESP_ERR__REVOKE_PARTITIONS:
                     echo "Revoke: ";
                     var_dump($partitions);
-                    $kafka->assign(NULL);
+                    $kafka->assign(null);
                     break;
 
                 default:
-                    throw new \Exception($err);
+                    throw new \RuntimeException($err);
             }
         });
 
@@ -138,7 +140,7 @@ class KafkaController extends AbstractController
         $conf->set('group.id', 'moj2');
 
         // Initial list of Kafka brokers
-        $conf->set('metadata.broker.list', 'kafka:9092');
+        $conf->set('metadata.broker.list', self::KAFKA_DSN);
 
         // Set where to start consuming messages when there is no initial offset in
         // offset store or the desired offset is out of range.
@@ -174,7 +176,7 @@ class KafkaController extends AbstractController
                     echo "Unsupported version";
                     break;
                 default:
-                    throw new \Exception($message->errstr(), $message->err);
+                    throw new \RuntimeException($message->errstr(), $message->err);
             }
         }
     }

@@ -24,7 +24,7 @@ framework:
                         group.id: 'my-group-id' # should be unique per consumer
                         max.poll.interval.ms: '45000'
                     topic_conf:
-                        auto.offset.reset: 'earliest'
+                        auto.offset.reset: 'earliest' #beginning
             rabbit_async:
                 dsn:  '%env(MESSENGER_TRANSPORT_DSN)%/%2f/events'
                 serializer: App\Controller\Command\RabbitSerializer
