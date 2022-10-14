@@ -41,7 +41,13 @@ There are more actions in each Controllers. Open code and figure out by yourself
 
 ## Basic information about Apache Kafka ##
 
-[https://kafka.apache.org/](https://kafka.apache.org/) - page of the project
+Apache Kafka does not have any visual tool to manage Kafka servers. There is couple app in the market which you can install and use it.
+Conduktor app is able to create Apache Kafka Server and Zookeeper itself, in other hand is allow to connect to existed broker from docker-compose.
+
+Apache Kafka has a `Cli Command Tool` in which you are able to manage whole server.
+
+* [https://kafka.apache.org/](https://kafka.apache.org/) - page of the project
+* If you want to install it, use link: [Conductor app](https://www.conduktor.io/kafka/how-to-start-kafka-with-conduktor) - tool to manage Apache Kafka
 
 ## Basic Information about Rabbit ##
 
