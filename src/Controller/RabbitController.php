@@ -33,7 +33,10 @@ final class RabbitController extends AbstractController
     #[Route('/', name: 'rabbit.index', methods: ['GET'])]
     public function index(Request $request): Response
     {
-        return new JsonResponse(['temat' => 'Porównanie systemów kolejkowy RabbitMQ i Apache Kafka', 'prezentuje' => 'Andrzej Piotrowski - andrzej.pitorowski@eobuwie.com.pl']);
+        return new JsonResponse([
+            'temat' => 'Porownanie systemow kolejkowy RabbitMQ i Apache Kafka',
+            'prezentuje' => 'Andrzej Piotrowski - andrzej.pitorowski@eobuwie.com.pl'
+        ]);
     }
 
     #[Route('/rabbit/publish-messenger', name: 'rabbit.publish_messenger', methods: ['GET'])]

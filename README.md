@@ -1,49 +1,55 @@
-# Rabbit
+# Rabbit vs Kafka comparison example app #
+
+This app was build as a pet project to compare RabbitMQ and Apache Kafka.
+
+You can download it and use it both tools after you run docker-compose.
+
+Furthermore, I created a presentation in which compare both technologies. 
+
+If you want to ask me about Rabbit or Kafka, please contact me using email: [andrzej.piotrowski@stronawww.net](mailto:andrzej.piotrowski@stronawww.net).
+
+### Presentation ###
+* `./docs/MODIVO TECH MEETUP — Rabbit vs Kafka.pptx`
 
 ### Dependencies ###
 * Docker CE (https://docs.docker.com/install/)
 * Docker Compose (https://docs.docker.com/compose/install/)
 
-Please add below entry to hosts file (on Linux it's `/etc/hosts`:
-* `127.0.0.1 app.local rabbitmq.app.local mailhog.app.local` 
+#### Please add below entry to hosts file (on Linux it's `/etc/hosts`: ####
+* `127.0.0.1 app.local rabbitmq.app.local mailhog.app.local`
 
-Copy file .env.dist as .env to project directory.
+### How to start ###
+* Run docker by executing in cli `make docker-up`
+* After you finish setup, you are ready to go.
 
 #### URL ####
 * `http://app.local/` - app homepage
-* `http://rabbitmq.app.local/` - RabbitMQ web UI
-* `http://mailhog.app.local/` - an email testing tool (you can browse sent emails here)
-
-### Init ###
-* Run docker by calling make docker-up
-* You are ready to go
+* `http://rabbitmq.app.local/` - RabbitMQ management panel (login: guest, password: guest)
+* `http://localhost:9094` - Kafka server
+* `http://localhost:2181` - Zookeeper server
 
 ### Executable ###
-* Command:
-```
-make symfony CMD="consumer:rabbit --run-time=15"
-```
 * In web browser:
-  * [Publish + declare queue using Bunny](http://app.local/publish-bunny)
-  * [Publish + declare queue using Native](http://app.local/publish-native)
-  * [Publish](http://app.local/publish)
-  * [Consume Single Message](http://app.local/consume-single-message)
-  * [Death Letter Queue init](http://app.local/death-letter-init)
-  * [Retry message](http://app.local/publish-to-death-letter)
-  * [Validate message](http://app.local/validate-message)
+  * [Publish rabbit message via messenger](http://app.local/rabbit/publish-messenger)
+  * [Publish kafka message via messenger](http://app.local/kafka/publish-messenger)
 
-## Basic Information ##
+There are more actions in each Controllers. Open code and figure out by yourself. 
+
+* In CLI:
+  * `make symfony CMD="messenger:consume rabbit_async -vv"`
+  * `make symfony CMD="messenger:consume kafka_consume -vv"`
+
+## Basic information about Apache Kafka ##
+
+[https://kafka.apache.org/](https://kafka.apache.org/) - page of the project
+
+## Basic Information about Rabbit ##
 
 ### Exchange types ###
 * [Exchange Types](https://www.rabbitmq.com/tutorials/amqp-concepts.html)
 
 ### Dead Letter Exchanges ###
 * [Death Letter Exchanges](https://www.rabbitmq.com/dlx.html)
-
-### Validation ###
-
-#### Validation message format ####
-* [JSON RPC 2.0](https://en.wikipedia.org/wiki/JSON-RPC#Version_2.0)
 
 #### JSON Schema ####
 * [Json Schema Specification](https://json-schema.org/)
