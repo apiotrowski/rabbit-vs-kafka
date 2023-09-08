@@ -15,7 +15,7 @@
         "enqueue/rdkafka": "^0.10.16",
         "gaufrette/extras": "^0.1.0",
         "justinrainbow/json-schema": "^5.2",
-        "knplabs/knp-gaufrette-bundle": "^0.7.2",
+        "knplabs/knp-gaufrette-bundle": "^0.8.0",
         "koco/messenger-kafka": "^0.17.0",
         "lexik/jwt-authentication-bundle": "^2.15",
         "php-amqplib/php-amqplib": "^3.2",

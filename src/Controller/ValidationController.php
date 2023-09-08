@@ -2,25 +2,31 @@
 declare(strict_types=1);
 namespace App\Controller;
 
+use Gaufrette\Filesystem;
 use JsonSchema\Validator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 final class ValidationController extends AbstractController
 {
-    #[Route('/validate-message', name: 'validation.validate-message', methods: ['GET'])]
-    public function validateMessage(): Response
+    public function __construct(public readonly Filesystem $schemasFilesystem)
     {
-        //$message = json_decode('{"jsonrpc": "2.0", "method": "CreatedProduct", "params": {"name": "Buty", "createdAt": "2018-08-28"}, "id": "123e4567-e89b-12d3-a456-426655440000"}');
-        $message = json_decode('{"jsonrpc": "2.0", "method": "Created", "params": {"name": "Buty", "createdAt": "201808-28"}, "id": "123e4567-e89b-12d3-a456-426655440000"}');
+    }
+
+    #[Route('/validate', name: 'validation.validate-message', methods: ['POST'])]
+    public function validate(Request $request): Response
+    {
+        $body = json_decode($request->getContent(), false);
+
+        $schema = json_decode(
+            $this->schemasFilesystem->get('schema.json')->getContent()
+        );
 
         $validator = new Validator();
-
-        $schemaPath = $this->getParameter('kernel.project_dir') . '/config/schema/schema.json';
-
-        $validator->validate($message, json_decode(file_get_contents($schemaPath)));
+        $validator->validate($body, $schema);
 
         if (true === $validator->isValid()) {
             $result = "JSON Valid";

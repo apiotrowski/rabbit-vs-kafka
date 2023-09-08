@@ -63,8 +63,10 @@ Apache Kafka has a `Cli Command Tool` in which you are able to manage whole serv
 * [Json Schema Validator library](https://packagist.org/packages/justinrainbow/json-schema)
 
 ##### Message: #####
-```json
-{"jsonrpc": "2.0", "method": "CreatedProduct", "params": {"name": "Buty", "createdAt": "2018-08-28"}, "id": "123e4567-e89b-12d3-a456-426655440000"}
+```bash
+curl -X POST http://app.local/validate \
+   -H "Content-Type: application/json" \
+   -d '{"jsonrpc": "2.0", "method": "NewProduct", "params": {"name": "Buty", "createdAt": "2018-08-28"}, "id": "123e4567-e89b-12d3-a456-426655440000"}'
 ```
 
 ##### Schema Example #####
@@ -91,8 +93,8 @@ Apache Kafka has a `Cli Command Tool` in which you are able to manage whole serv
       "title": "Method name/Event name",
       "example": "CreateProject",
       "enum": [
-        "CreatedProduct",
-        "SoldProduct"
+        "NewProduct",
+        "NewOrder"
       ]
     },
     "id": {
@@ -102,24 +104,13 @@ Apache Kafka has a `Cli Command Tool` in which you are able to manage whole serv
       "example": "123e4567-e89b-12d3-a456-426655440000"
     },
     "params": {
-      "$id": "/properties/params",
-      "type": "object",
-      "properties": {
-        "name": {
-          "$id": "/properties/params",
-          "type": "string",
-          "example": "But"
+      "oneOf": [
+        {
+          "$ref": "#/definitions/newProduct"
         },
-        "createdAt": {
-          "$id": "/properties/params/createdAt",
-          "type": "string",
-          "format": "date",
-          "example": "2022-06-09"
+        {
+          "$ref": "#/definitions/newOrder"
         }
-      },
-      "required": [
-        "name",
-        "createdAt"
       ]
     }
   },
@@ -128,7 +119,67 @@ Apache Kafka has a `Cli Command Tool` in which you are able to manage whole serv
     "method",
     "params",
     "id"
-  ]
+  ],
+  "definitions": {
+    "newProduct": {
+      "$id": "/definitions/newProduct",
+      "type": "object",
+      "properties": {
+        "id": {
+          "$id": "/definitions/newProduct/id",
+          "type": "integer"
+        },
+        "name": {
+          "$id": "/definitions/newProduct/name",
+          "type": "string"
+        },
+        "quantity": {
+          "$id": "/definitions/newProduct/quantity",
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "active": {
+          "$id": "/definitions/newProduct/active",
+          "type": "boolean"
+        },
+        "createdAt": {
+          "$id": "/definitions/newProduct/createdAt",
+          "type": "string",
+          "format": "date",
+          "example": "2022-06-09"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "quantity",
+        "active",
+        "createdAt"
+      ]
+    },
+    "newOrder": {
+      "$id": "/definitions/newOrder/id",
+      "type": "object",
+      "properties": {
+        "cartId": {
+          "$id": "/definitions/newOrder/cartId",
+          "type": "string",
+          "pattern": "^[0-9(a-f|A-F)]{8}-[0-9(a-f|A-F)]{4}-4[0-9(a-f|A-F)]{3}-[89ab][0-9(a-f|A-F)]{3}-[0-9(a-f|A-F)]{12}$"
+        },
+        "createdAt": {
+          "$id": "/definitions/newOrder/createdAt",
+          "type": "string",
+          "format": "date",
+          "example": "2022-06-09"
+        }
+      },
+      "required": [
+        "cartId",
+        "createdAt"
+      ]
+    }
+  }
 }
 ```
 

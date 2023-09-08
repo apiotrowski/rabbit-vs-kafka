@@ -1,0 +1,10 @@
+knp_gaufrette:
+  adapters:
+    local_schemas_storage:
+      local:
+        directory: "%kernel.project_dir%/schemas"
+
+  filesystems:
+    schemas_fs:
+      adapter: local_schemas_storage
+      alias: schemas_fs
